@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.miw</groupId>
+	<artifactId>SpringMapReduce</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>SpringMapReduce</name>
+	<description>Spring Hadoop Map Reduce</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.1.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring.hadoop.version>2.2.0.RELEASE</spring.hadoop.version>
+		<hadoop.version>2.6.0</hadoop.version>
+		<hadoop.examples>hadoop-mapreduce-examples</hadoop.examples>
+		<mapreduce.framework>yarn</mapreduce.framework>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-hadoop</artifactId>
+			<version>${spring.hadoop.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context-support</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>${hadoop.examples}</artifactId>
+			<version>${hadoop.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<!--  
+			<version>1.8.5</version>
+			-->
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>spring-milestone</id>
+			<url>http://repo.springsource.org/libs-milestone</url>
+		</repository>
+			
+		<repository>
+			<id>hortonworks</id>
+			<url>http://repo.hortonworks.com/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>hortonworks-jetty</id>
+			<url>http://repo.hortonworks.com/content/repositories/jetty-hadoop</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<repositoryLayout>flat</repositoryLayout>
+					<configurationSourceDirectory>src/main/config</configurationSourceDirectory>
+					<copyConfigurationDirectory>true</copyConfigurationDirectory>
+					<extraJvmArguments>-Dmr.fw=${mapreduce.framework}</extraJvmArguments>
+					<programs>
+						<program>
+							<mainClass>org.springframework.samples.hadoop.mapreduce.Wordcount</mainClass>
+							<name>wordcount</name>
+						</program>
+					</programs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>config</id>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<copy todir="target/appassembler/data">
+									<fileset dir="data"/>
+								</copy>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>
