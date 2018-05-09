@@ -1,12 +1,11 @@
-== HDFS and MapReduce batch sample
+== HDFS y MapReduce batch
 
-In this sample we will execute HDFS operations and a MapReduce job using Spring Batch. The MapReduce job counts the number of times a hashtag exists in a file containing tweets.  The HDFS operations are to first copy a data files into HDFS and then to remove any existing files in the MapReduce job's output directory. After the MapReduce job completes the output is copied to the local files system so we can print the output to the console.
+En esta muestra ejecutaremos operaciones HDFS y un `Job` de MapReduce utilizando Spring Batch. El `Job` de MapReduce cuenta la cantidad de veces que existe un hashtag en un archivo que contiene tweets. Las operaciones HDFS deben copiar primero los archivos de datos en HDFS y luego eliminar los archivos existentes en el directorio de salida del trabajo de MapReduce. Una vez que se completa el trabajo de MapReduce, la salida se copia en el sistema de archivos local para que podamos imprimir la salida a la consola.
 
-=== Building and running
+=== Compilado y Ejecución
 
-Use the following commands to build and run the sample
+Usar la siguiente líneas de comandos para compilar y ejecutar el ejemplo
 
     $ mvn clean package
     $ sh ./target/appassembler/bin/mrBatchApp
 
-This example is configured to build and run against Hadoop 2.6.0. 
