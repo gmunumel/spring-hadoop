@@ -143,7 +143,6 @@ hadoop namenode -format
 ## Pig
 
 * Análisis simple del archivo /etc/passwd usando PigRunner
-* Usando PigTemplate para ejecutar scripts Pig 
 * Un ejemplo mas complejo usando Apache Log File para analizar PigRunner 
 
 ### Compilar script
