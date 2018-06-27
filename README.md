@@ -218,6 +218,8 @@ User [name=user9, email=user9@yahoo.com, password=password9]]
 ### En caso de error ejecutar
 ```
 start-hbase.sh
+hbase-daemons.sh start zookeeper
+hbase shell <luego> list
 ```
 
 ## MrBatch
