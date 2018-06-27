@@ -225,3 +225,23 @@ hbase shell <luego> list
 ## MrBatch
 
 Ejecución de proceso Batch para `Job` Hadoop y con integración de Spring
+
+### Compilar script
+```
+mvn clean package
+```
+
+### Visualizar archivo de entrada
+```
+cat data/nbatweets-small.txt
+```
+
+### Ejecución de script
+```
+sh ./target/appassembler/bin/mrBatchApp
+```
+
+### Visualizar salida
+```
+Ver resultado en la consola
+```
